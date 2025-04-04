@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public float shootTimer;
     public Transform shootPoint;
     public float fixedY;
+    public GameObject projectilePrefab;
     private void Awake()
     {
         fixedY = -4;
@@ -22,6 +23,16 @@ public class Player : MonoBehaviour
     {
         Move();
         shootTimer -= Time.deltaTime;
+        Shoot();
+    }
+
+    void Shoot()
+    {
+        if(Input.GetMouseButton(0) && shootTimer <= 0)
+        {
+            shootTimer = 0.3f;
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        }
     }
     void Move()
     {
