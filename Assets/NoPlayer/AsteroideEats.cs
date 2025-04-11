@@ -32,7 +32,7 @@ public class AsteroideEats : MonoBehaviour
         Vector2 newPosition = transform.position;
         newPosition.x = randomX;
 
-        Instantiate(asteroide, newPosition, Quaternion.identity);
+        Instantiate(asteroide, newPosition, transform.rotation);
         spawnRate = spawnInterval;
     }
 }
