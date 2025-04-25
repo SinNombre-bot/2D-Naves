@@ -5,12 +5,16 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int points;
+    public float speed = 0.02f;
 
     public float shootInterval;
     public float shootTimer;
     public Transform shootPoint;
     public float fixedY;
     public GameObject projectilePrefab;
+
+    private const float MIN_X = -2.5f;
+    private const float MAX_X = 2.5f;
     private void Awake()
     {
         fixedY = -4;
@@ -40,8 +44,12 @@ public class Player : MonoBehaviour
         {
             Vector2 mousePos = Input.mousePosition;
             Vector2 realPos = Camera.main.ScreenToWorldPoint(mousePos);
-            //transform.position = new Vector2(realPos.x, fixedY);
-            StartCoroutine(MoveGradually(realPos));
+            if(realPos.x > MIN_X && realPos.x < MAX_X && Mathf.Abs(realPos.x - transform.position.x)> 0.2f)
+            {
+                StopAllCoroutines();
+                StartCoroutine(MoveGradually(realPos)); 
+            }
+            
         }
     }
 
@@ -53,7 +61,7 @@ public class Player : MonoBehaviour
         {
             while (transform.position.x > _target_position.x)
             {
-                transform.position = new Vector2(transform.position.x - 0.02f, transform.position.y);
+                transform.position = new Vector2(transform.position.x - speed, transform.position.y);
                 yield return new WaitForSeconds(Time.deltaTime);
             }
         }
@@ -61,7 +69,7 @@ public class Player : MonoBehaviour
         {
             while (transform.position.x < _target_position.x)
             {
-                transform.position = new Vector2(transform.position.x + 0.02f, transform.position.y);
+                transform.position = new Vector2(transform.position.x + speed, transform.position.y);
                 yield return new WaitForSeconds(Time.deltaTime);
             }
         }
