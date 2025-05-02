@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -15,14 +16,29 @@ public class Player : MonoBehaviour
 
     private const float MIN_X = -2.5f;
     private const float MAX_X = 2.5f;
+
+    public int Stars = 0;
+    public TextMeshProUGUI TMP;
+    public AudioSource Soorsz;
     private void Awake()
     {
         fixedY = -4;
+        Soorsz = GetComponent<AudioSource>();
     }
 
-   
+
 
     // Update is called once per frame
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Star")
+        {
+            Destroy(collision.gameObject);
+            Stars += 1;
+            TMP.text = Stars.ToString();
+
+        }
+    }
     void Update()
     {
         Move();
@@ -35,6 +51,7 @@ public class Player : MonoBehaviour
         if(Input.GetMouseButton(0) && shootTimer <= 0)
         {
             shootTimer = 0.3f;
+            Soorsz.Play();
             Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
         }
     }

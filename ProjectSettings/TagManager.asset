@@ -7,6 +7,7 @@ TagManager:
   - Destruyeasteroides
   - Bullet
   - player
+  - Star
   layers:
   - Default
   - TransparentFX
@@ -49,4 +50,7 @@ TagManager:
     locked: 0
   - name: Objetos
     uniqueID: 3161069855
+    locked: 0
+  - name: UI
+    uniqueID: 148094551
     locked: 0
