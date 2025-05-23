@@ -41,7 +41,14 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        Move();
+        if (Input.GetMouseButton(0))
+        {
+            Move(Input.mousePosition);
+        }
+        if (Input.touchCount > 0)
+        {
+            Move(Input.GetTouch(0).position);
+        }
         shootTimer -= Time.deltaTime;
         Shoot();
     }
@@ -55,19 +62,17 @@ public class Player : MonoBehaviour
             Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
         }
     }
-    void Move()
+    void Move(Vector2 Position)
     {
-        if(Input.GetMouseButton(0))
-        {
-            Vector2 mousePos = Input.mousePosition;
-            Vector2 realPos = Camera.main.ScreenToWorldPoint(mousePos);
+        
+            Vector2 realPos = Camera.main.ScreenToWorldPoint(Position);
             if(realPos.x > MIN_X && realPos.x < MAX_X && Mathf.Abs(realPos.x - transform.position.x)> 0.2f)
             {
                 StopAllCoroutines();
                 StartCoroutine(MoveGradually(realPos)); 
             }
             
-        }
+        
     }
 
 
